@@ -3,13 +3,17 @@ package com.imjake9.server.lib.plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 
-public abstract class JSPlugin<T extends JSPlugin> extends JavaPlugin {
+public abstract class JSPlugin extends JavaPlugin {
+    
+    private static JSPlugin instance;
     
     protected Messager messager;
     protected PermissionsManager permissionsManager;
     
     @Override
     public final void onEnable() {
+        
+        instance = this;
         
         messager = new Messager(this);
         permissionsManager = new PermissionsManager(this);
@@ -25,15 +29,15 @@ public abstract class JSPlugin<T extends JSPlugin> extends JavaPlugin {
         
     }
     
-    public Messager getMessager() {
-        return messager;
+    public static Messager getMessager() {
+        return instance.messager;
     }
     
-    public PermissionsManager getPermissionsManager() {
-        return permissionsManager;
+    public static PermissionsManager getPermissionsManager() {
+        return instance.permissionsManager;
     }
     
-    public abstract void onJSEnable();
-    public abstract void onJSDisable();
+    public void onJSEnable() {};
+    public void onJSDisable() {};
     
 }
